@@ -15,6 +15,9 @@ const userSchema = new mongoose.Schema({
     profession: {
         type: String,
         required: true
+    },
+    jwtToken:{
+        type:String
     }
 })
 const User = mongoose.model('User', userSchema)

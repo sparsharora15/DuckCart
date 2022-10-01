@@ -16,10 +16,10 @@ message:{
     type:String,
 },
 toCreator:{
-    type:[mongoose.Schema.Types.ObjectId]   
+    type:mongoose.Schema.Types.ObjectId   
 },
 fromCreator:{
-    type:[mongoose.Schema.Types.ObjectId],
+    type:mongoose.Schema.Types.ObjectId,
     required:true   
 }
 })
