@@ -31,7 +31,7 @@ exports.userSignIn = async (req, res) => {
                 secret
             );
             await User.findOneAndUpdate({ username: finalUser.username }, { $set: { jwtToken: token } })
-            let loggedInUserDetails = {
+            const loggedInUserDetails = {
                 id: finalUser._id,
                 username: finalUser.username,
                 imageUrl: finalUser.imageUrl,
@@ -61,7 +61,7 @@ exports.userSignup = async (req, res) => {
         }
 
         const encryptedPassword = await bcrypt.hash(req.body.password, 10);
-        let picUrl = req.file ? req.file.originalname : null
+        const picUrl = req.file ? req.file.originalname : null
         if (confirmPassword !== req.body.password) {
             res.json({
                 message: "Please check your password"
@@ -96,7 +96,7 @@ exports.donation = async (req, res) => {
             name: req.body.name,
             message: req.body.message,
             toCreator: req.body.toCreator,
-            fromCreator: req.body.fromCreator
+            fromCreator: req.user._id
         })
         await donor.save()
         res.send("done")
@@ -108,7 +108,7 @@ exports.donation = async (req, res) => {
 exports.getDonationsBetweenTwoCreator = async (req, res) => {
     try {
         const { reciever } = req.body
-        let results = await donation.find({ toCreator: reciever } && { fromCreator: req.user._id })
+        const results = await donation.find({ toCreator: reciever } && { fromCreator: req.user._id })
         res.send(results)
     } catch (e) {
 
@@ -116,11 +116,11 @@ exports.getDonationsBetweenTwoCreator = async (req, res) => {
 }
 exports.paginatedCreatorsList = async (req, res) => {
     try {
-        let { page, limit } = req.query
+        const { page, limit } = req.query
         !page ? page = 1 : null
         !limit ? limit = 5 : null
         const skip = (page - 1) * 5
-        let users = await User.find().select('username profession imageUrl -_id' ).skip(skip).limit(limit)
+        const users = await User.find().select('username profession imageUrl -_id' ).skip(skip).limit(limit)
         // console.log(users.username)
         res.send({ page: page, limit: limit, users: users })
     } catch (e) {

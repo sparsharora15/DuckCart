@@ -7,8 +7,8 @@ exports.authUser = async (req, res, next) => {
 
         if (req.headers.authorization) {
             const token = req.headers.authorization.split(" ")[1];
-            let verification = jwt.verify(token, secret)
-            let user = await userSchema.findById(verification.id)
+            const verification = jwt.verify(token, secret)
+            const user = await userSchema.findById(verification.id)
             if (user.jwtToken === token) {
                 req.user = user;
                 next();
